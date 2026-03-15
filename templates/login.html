@@ -1,1 +1,178 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FPI SX SPAM - Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #003300 100%);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .login-card {
+            max-width: 420px;
+            width: 100%;
+            background: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            border-radius: 24px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 40px rgba(0, 255, 0, 0.15);
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .welcome-text {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .welcome-text h1 {
+            color: #00ff00;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            text-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+        }
+        
+        .welcome-text p {
+            color: #90ee90;
+            font-size: 0.95rem;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            color: #90ee90;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1.5px solid rgba(0, 255, 0, 0.3);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: #00ff00;
+            box-shadow: 0 0 0 3px rgba(0, 255, 0, 0.2);
+        }
+        
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #00ff00, #009900);
+            border: none;
+            border-radius: 12px;
+            color: black;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 255, 0, 0.3);
+        }
+        
+        .error-message {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff4444;
+            border-radius: 10px;
+            padding: 12px;
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #666;
+            font-size: 0.8rem;
+        }
+        
+        .footer a {
+            color: #90ee90;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <div class="welcome-text">
+            <h1>FPI SX SPAM</h1>
+            <p>FPI SX TEAM</p>
+        </div>
+        
+        {% if error %}
+        <div class="error-message">
+            {{ error }}
+        </div>
+        {% endif %}
+        
+        <form method="POST" action="/login">
+            <div class="input-group">
+                <label>USERNAME</label>
+                <input type="text" name="username" placeholder="Enter your username" required>
+            </div>
+            
+            <div class="input-group">
+                <label>PASSWORD</label>
+                <input type="password" name="password" placeholder="Enter your password" required>
+            </div>
+            
+            <button type="submit" class="login-btn">SIGN IN</button>
+        </form>
+        
+        <div class="footer">
+            FPI SX TEAM · <a href="https://t.me/noseyrobot" target="_blank">@noseyrobot</a> · <a href="https://t.me/ZikoB0SS" target="_blank">@ZikoB0SS</a>
+        </div>
+    </div>
+</body>
+</html>

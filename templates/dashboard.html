@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>FPI SX SPAM - Advanced Spam Tool</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #003300 100%);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            color: #fff;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 80px 20px 40px;
+            position: relative;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #00ff00;
+            margin-bottom: 4px;
+            letter-spacing: 1px;
+            text-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+        
+        .header .team {
+            color: #90ee90;
+            font-size: 1rem;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+        
+        .header .user-badge {
+            margin-top: 12px;
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid rgba(0, 255, 0, 0.2);
+            border-radius: 30px;
+            color: #90ee90;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .team-info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .team-link {
+            background: rgba(0, 255, 0, 0.1);
+            border: 2px solid #00ff00;
+            color: #00ff00;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .team-link:hover {
+            background: #00ff00;
+            color: black;
+            box-shadow: 0 0 15px #00ff00;
+        }
+        
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            color: #90ee90;
+            border: 2px solid #00ff00;
+            padding: 8px 16px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background: #00ff00;
+            color: black;
+            box-shadow: 0 0 15px #00ff00;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: rgba(18, 18, 18, 0.8);
+            border: 1px solid rgba(0, 255, 0, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .stat-value {
+            color: #00ff00;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .stat-label {
+            color: #90ee90;
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .tab-btn {
+            background: transparent;
+            border: 1.5px solid rgba(0, 255, 0, 0.2);
+            color: #90ee90;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tab-btn:hover {
+            border-color: #00ff00;
+            color: #00ff00;
+            transform: translateY(-2px);
+        }
+        
+        .tab-btn.active {
+            background: #00ff00;
+            border-color: #00ff00;
+            color: black;
+            font-weight: 600;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #90ee90;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1.5px solid rgba(0, 255, 0, 0.2);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #00ff00;
+            box-shadow: 0 0 0 3px rgba(0, 255, 0, 0.1);
+        }
+        
+        .duration-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .duration-input {
+            flex: 2;
+        }
+        
+        .duration-select {
+            flex: 1;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #00ff00, #009900);
+            border: none;
+            border-radius: 12px;
+            color: black;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 255, 0, 0.3);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            box-shadow: 0 8px 20px rgba(255, 0, 0, 0.3);
+        }
+        
+        .btn-test {
+            background: linear-gradient(135deg, #ffaa00, #cc8800);
+            color: black;
+        }
+        
+        .spams-list {
+            background: rgba(18, 18, 18, 0.8);
+            border: 1px solid rgba(0, 255, 0, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .spam-item {
+            background: rgba(0, 255, 0, 0.05);
+            border: 1px solid rgba(0, 255, 0, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .spam-info {
+            flex: 1;
+        }
+        
+        .spam-info .uid {
+            color: #00ff00;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .spam-info .type {
+            color: #90ee90;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+        
+        .spam-info .time {
+            color: #fff;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        .stop-btn {
+            background: transparent;
+            border: 1px solid #ff4444;
+            color: #ff4444;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .stop-btn:hover {
+            background: #ff4444;
+            color: white;
+        }
+        
+        .message-box {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 12px;
+            display: none;
+        }
+        
+        .message-box.success {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            display: block;
+        }
+        
+        .message-box.error {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff4444;
+            color: #ff4444;
+            display: block;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #666;
+            font-size: 0.85rem;
+        }
+        
+        .footer a {
+            color: #90ee90;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .team-info {
+                position: static;
+                justify-content: center;
+                margin-bottom: 20px;
+            }
+            
+            .logout-btn {
+                position: static;
+                display: inline-block;
+                margin-top: 10px;
+            }
+            
+            .spam-item {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .stop-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="team-info">
+        <a href="https://t.me/noseyrobot" target="_blank" class="team-link">
+            <i class="fas fa-crown"></i> @noseyrobot
+        </a>
+        <a href="https://t.me/ZikoB0SS" target="_blank" class="team-link">
+            <i class="fas fa-code"></i> @ZikoB0SS
+        </a>
+    </div>
+    
+    <a href="/logout" class="logout-btn">LOGOUT</a>
+    
+    <div class="container">
+        <div class="header">
+            <h1>FPI SX SPAM</h1>
+            <div class="team">FPI SX TEAM</div>
+            <div class="user-badge">
+                <i class="fas fa-user"></i> {{ username }}
+            </div>
+        </div>
+
+        <!-- إحصائيات -->
+        <div class="stats-grid" id="stats-container">
+            <div class="stat-card">
+                <div class="stat-value" id="total-accounts">0</div>
+                <div class="stat-label">Total Accounts</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="connected-accounts">0</div>
+                <div class="stat-label">Connected</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="success-rate">0%</div>
+                <div class="stat-label">Success Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="active-spams">0</div>
+                <div class="stat-label">Active Spams</div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('normal')"><i class="fas fa-bolt"></i> NORMAL SPAM</button>
+            <button class="tab-btn" onclick="showTab('room')"><i class="fas fa-door-open"></i> ROOM SPAM</button>
+            <button class="tab-btn" onclick="showTab('active')"><i class="fas fa-list"></i> ACTIVE SPAMS</button>
+            <button class="tab-btn" onclick="showTab('test')"><i class="fas fa-flask"></i> TEST</button>
+        </div>
+
+        <div id="message-box" class="message-box"></div>
+
+        <!-- Tab: Normal Spam -->
+        <div id="normal-tab" class="tab-content active">
+            <form onsubmit="handleFormSubmit(event, 'normal')">
+                <div class="form-group">
+                    <label><i class="fas fa-fingerprint"></i> TARGET UID</label>
+                    <input type="text" name="uid" class="form-control" placeholder="Enter target UID" required>
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-clock"></i> DURATION</label>
+                    <div class="duration-group">
+                        <input type="number" name="duration" class="form-control duration-input" placeholder="Number" required min="1" max="720">
+                        <select name="unit" class="form-control duration-select">
+                            <option value="hours">Hours</option>
+                            <option value="days">Days</option>
+                        </select>
+                    </div>
+                    <small style="color: #90ee90;">Max: 30 days (720 hours)</small>
+                </div>
+                
+                <button type="submit" class="btn">
+                    <i class="fas fa-play"></i> START NORMAL SPAM
+                </button>
+            </form>
+        </div>
+
+        <!-- Tab: Room Spam -->
+        <div id="room-tab" class="tab-content">
+            <form onsubmit="handleFormSubmit(event, 'room')">
+                <div class="form-group">
+                    <label><i class="fas fa-fingerprint"></i> TARGET UID</label>
+                    <input type="text" name="uid" class="form-control" placeholder="Enter target UID" required>
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-clock"></i> DURATION</label>
+                    <div class="duration-group">
+                        <input type="number" name="duration" class="form-control duration-input" placeholder="Number" required min="1" max="720">
+                        <select name="unit" class="form-control duration-select">
+                            <option value="hours">Hours</option>
+                            <option value="days">Days</option>
+                        </select>
+                    </div>
+                    <small style="color: #90ee90;">Max: 30 days (720 hours)</small>
+                </div>
+                
+                <button type="submit" class="btn">
+                    <i class="fas fa-play"></i> START ROOM SPAM
+                </button>
+            </form>
+        </div>
+
+        <!-- Tab: Active Spams -->
+        <div id="active-tab" class="tab-content">
+            <div class="spams-list" id="active-spams-list">
+                <div style="text-align: center; padding: 30px; color: #90ee90;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 2rem;"></i>
+                    <p style="margin-top: 10px;">Loading active spams...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Test -->
+        <div id="test-tab" class="tab-content">
+            <form onsubmit="handleTestSubmit(event)">
+                <div class="form-group">
+                    <label><i class="fas fa-fingerprint"></i> TEST UID</label>
+                    <input type="text" name="uid" class="form-control" placeholder="Enter UID to test" required>
+                    <small style="color: #90ee90;">Send test packets to verify spam is working</small>
+                </div>
+                
+                <button type="submit" class="btn btn-test">
+                    <i class="fas fa-flask"></i> SEND TEST PACKETS
+                </button>
+            </form>
+        </div>
+
+        <div class="footer">
+            FPI SX TEAM · <a href="https://t.me/noseyrobot" target="_blank">@noseyrobot</a> · <a href="https://t.me/ZikoB0SS" target="_blank">@ZikoB0SS</a>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            if (tabName === 'active') {
+                loadActiveSpams();
+            }
+        }
+        
+        async function handleFormSubmit(event, type) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const formData = new FormData(form);
+            const endpoint = type === 'normal' ? 'start_normal_spam' : 'start_room_spam';
+            
+            showMessage('Processing...', 'info');
+            
+            try {
+                const response = await fetch(`/${endpoint}`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showMessage(data.message || 'Spam started successfully!', 'success');
+                    form.reset();
+                    loadStats();
+                } else {
+                    showMessage(data.error || 'An error occurred', 'error');
+                }
+            } catch (error) {
+                showMessage('Connection error', 'error');
+            }
+        }
+        
+        async function handleTestSubmit(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            showMessage('Sending test packets...', 'info');
+            
+            try {
+                const response = await fetch('/test_spam', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showMessage(data.message, 'success');
+                } else {
+                    showMessage(data.error, 'error');
+                }
+            } catch (error) {
+                showMessage('Connection error', 'error');
+            }
+        }
+        
+        async function loadActiveSpams() {
+            const listDiv = document.getElementById('active-spams-list');
+            
+            try {
+                const response = await fetch('/get_active_spams');
+                const data = await response.json();
+                
+                if (data.success && data.spams.length > 0) {
+                    let html = '<h3 style="color: #90ee90; margin-bottom: 15px;">📋 Active Spams</h3>';
+                    
+                    data.spams.forEach(spam => {
+                        const typeIcon = spam.type === 'normal' ? '⚡' : '🚪';
+                        const typeText = spam.type === 'normal' ? 'Normal Spam' : 'Room Spam';
+                        
+                        html += `
+                            <div class="spam-item">
+                                <div class="spam-info">
+                                    <div class="uid">🎯 UID: ${spam.uid}</div>
+                                    <div class="type">📌 Type: ${typeIcon} ${typeText}</div>
+                                    <div class="time">⏱️ Time Left: ${spam.remaining_text}</div>
+                                </div>
+                                <button onclick="stopSpam('${spam.uid}', '${spam.type}')" class="stop-btn">
+                                    <i class="fas fa-stop"></i> STOP
+                                </button>
+                            </div>
+                        `;
+                    });
+                    
+                    listDiv.innerHTML = html;
+                } else if (data.success) {
+                    listDiv.innerHTML = '<div style="text-align: center; padding: 30px; color: #90ee90;">No active spams</div>';
+                } else {
+                    listDiv.innerHTML = `<div class="error-message">${data.error}</div>`;
+                }
+            } catch (error) {
+                listDiv.innerHTML = '<div class="error-message">Error loading spams</div>';
+            }
+        }
+        
+        async function stopSpam(uid, type) {
+            try {
+                const response = await fetch('/stop_spam', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ uid, type })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showMessage(data.message, 'success');
+                    loadActiveSpams();
+                    loadStats();
+                } else {
+                    showMessage(data.error, 'error');
+                }
+            } catch (error) {
+                showMessage('Connection error', 'error');
+            }
+        }
+        
+        async function loadStats() {
+            try {
+                const response = await fetch('/get_stats');
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('total-accounts').textContent = data.stats.total || 0;
+                    document.getElementById('connected-accounts').textContent = data.stats.connected_now || 0;
+                    document.getElementById('success-rate').textContent = data.stats.success_rate || '0%';
+                    
+                    const spamResponse = await fetch('/get_active_spams');
+                    const spamData = await spamResponse.json();
+                    document.getElementById('active-spams').textContent = spamData.success ? spamData.spams.length : 0;
+                }
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+        
+        function showMessage(message, type) {
+            const box = document.getElementById('message-box');
+            box.className = 'message-box ' + type;
+            box.innerHTML = message;
+            
+            setTimeout(() => {
+                box.className = 'message-box';
+            }, 5000);
+        }
+        
+        // تحديث الإحصائيات كل 5 ثواني
+        setInterval(() => {
+            loadStats();
+            const activeTab = document.querySelector('.tab-content.active')?.id;
+            if (activeTab === 'active-tab') {
+                loadActiveSpams();
+            }
+        }, 5000);
+        
+        // تحميل الإحصائيات عند فتح الصفحة
+        loadStats();
+    </script>
+</body>
+</html>
