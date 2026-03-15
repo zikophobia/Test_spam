@@ -1,0 +1,10 @@
+flask
+requests
+pyjwt
+protobuf
+psutil
+urllib3
+protobuf-decoder
+pycryptodome
+python-dotenv
+gunicorn
